@@ -1,0 +1,2 @@
+module BungasHelper
+end

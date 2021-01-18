@@ -1,0 +1,45 @@
+<div class="container"><br>
+	<h3>Welcome To Application Finace Calculator</h3>
+	<h4>Aplikasi yang membantu anda untuk menabung disertai dengan rincian biaya sesuai target yang anda inginkan </h4><br>
+
+	<%= form_with model: @tabungan, url: tabungans_path, method: :post do |p| %>
+		<div class="form-group">
+			<h5>Tujuan Nabung</h5>
+			<%= p.text_field :tujuan_nabung, class: 'form-control col-md-3' %>
+		</div>
+
+		<div class="form-group">
+			<h5>Target Dana(Rp)</h5>
+			<div id="asd">
+			<%= p.text_field :target_dana, class: 'form-control col-md-3' %>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<h5>Biaya Perbulan(Rp)</h5>
+			<%= p.text_field :biaya_perbulan, class: 'form-control col-md-3' %>
+		</div>
+
+		<div class="form-group">
+			<h5>Tempo/Bulan</h5>
+			<%= p.text_field :tempo, class: 'form-control col-md-3' %>
+		</div>
+
+		<div class="form-group">
+			<h5>Range Bunga/Tahun</h5>
+			<%= select_tag :range_bunga, options_for_select(Bunga.all.collect{ |u| [u.bunga, u.id] }), class: 'form-control col-md-3' %>
+		</div>
+
+		<div class="form-group">
+			<h5>Saldo Awal(Rp)</h5>
+			<%= p.text_field :saldo_awal, class: 'form-control col-md-3' %>
+		</div>
+
+		<div class="form-group">
+			<h5>Pilih Awal Bulan Untuk Nabung</h5>
+			<%= p.date_field :awal_nabung, class: 'form-control col-md-3' %>
+		</div>
+
+			<%= p.submit "Nabung", class: 'btn btn-primary' %>
+	<% end %>
+</div>
