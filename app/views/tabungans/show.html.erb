@@ -6,37 +6,26 @@
   	</div>
   </div>
 <% end %>
-	<a><b>Tujuan Nabung</b><a style="padding-left: 42px;">:</a> <%= @tabungan.tujuan_nabung %>,</a> 	<a><b>Target Dana</b> : <%= number_to_currency(@tabungan.target_dana, unit: "Rp. ", separator: ",", delimiter: ".") %></a><br>
-	<a><b>Biaya Perbulan</b> <a style="padding-left: 36px;">:</a> <%= number_to_currency(@tabungan.biaya_perbulan, unit: "Rp. ", separator: ",", delimiter: ".") %><br></a>
+	<a><b>Tujuan Nabung</b><a style="padding-left: 42px;">:</a> <%= @tabungan.tujuan_nabung %>,</a> 	<a><b>Target Dana</b> : <%= @tabungan.format2 %></a><br>
+	<a><b>Biaya Perbulan</b> <a style="padding-left: 36px;">:</a> <%= @tabungan.format %><br></a>
 	<a><b>Tempo</b> <a style="padding-left: 117px;">:</a> <%= @tabungan.tempo %> Bulan <a>=> <%= @tabungan.tempo.fdiv(12).round(1) %> Tahun</a><br></a>	
 	<a><b>Range Bunga</b> <a style="padding-left: 53px;">:</a> <%= @tabungan.bunga.bunga %> <%= @tabungan.range_bunga %>%<br></a>
-	<a><b>Saldo Awal</b> <a style="padding-left: 77px;">:</a> <%= number_to_currency(@tabungan.saldo_awal, unit: "Rp. ", separator: ",", delimiter: ".") %><br></a>
+	<a><b>Saldo Awal</b> <a style="padding-left: 77px;">:</a> <%= @tabungan.format %><br></a>
 	<a><b>Biaya Admin</b><a style="padding-left: 67px;">:</a> Rp. 5.000</a><br>
 	<a><b>Awal Mulai Nabung</b> : <%= @tabungan.awal_nabung %><br></a><br><br>
 </div>
 
-<table class="table">
+<table class="table table-hover">
 	  <thead>
 	    <tr>
 	      <th scope="col">Tahun 1</th>
-	      <th scope="col">Jan</th>
-	      <th scope="col">Feb</th>
-	      <th scope="col">Maret</th>
-	      <th scope="col">April</th>
-	      <th scope="col">Mei</th>
-	      <th scope="col">Juni</th>
-	      <th scope="col">July</th>
-	      <th scope="col">Agustus</th>
-	      <th scope="col">September</th>
-	      <th scope="col">Oktober</th>
-	      <th scope="col">November</th>
-	      <th scope="col">Desember</th>
+	      <th scope="col"></th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <tr>
 	      <th scope="row">Saldo Awal</th>
-	      <td>Mark</td>
+	      <td><%= @tabungan.format %></td>
 	      <td>Otto</td>
 	      <td>@mdo</td>
 	      <td>Mark</td>
@@ -52,7 +41,7 @@
 
 	    <tr>
 	      <th scope="row">Admin</th>
-	      <td>Mark</td>
+	      <td>0</td>
 	      <td>Otto</td>
 	      <td>@mdo</td>
 	      <td>Mark</td>
@@ -68,7 +57,7 @@
 
 	    <tr>
 	      <th scope="row">Bunga</th>
-	      <td>Mark</td>
+	      <td>0</td>
 	      <td>Otto</td>
 	      <td>@mdo</td>
 	      <td>Mark</td>
@@ -84,7 +73,7 @@
 
 	    <tr>
 	      <th scope="row">Pajak</th>
-	      <td>Mark</td>
+	      <td>0</td>
 	      <td>Otto</td>
 	      <td>@mdo</td>
 	      <td>Mark</td>
@@ -100,7 +89,7 @@
 
 	    <tr>
 	      <th scope="row">Setoran</th>
-	      <td>Mark</td>
+	      <td><%= @tabungan.format %></td>
 	      <td>Otto</td>
 	      <td>@mdo</td>
 	      <td>Mark</td>
