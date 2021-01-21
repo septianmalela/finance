@@ -42,3 +42,11 @@ b = Bunga.new
 b.bunga = "saham"
 b.range_bunga = 12
 b.save
+
+@tabungan = Tabungan.last
+@start_date = @tabungan.awal_nabung
+@end_date = @tabungan.tempo.months.after.to_date
+
+@number_of_months = (@end_date.year*12+@end_date.month)-(@start_date.year*12+@start_date.month)+1
+dates = @number_of_months.times.each_with_object([]) do |count, array| array << [@start_date.beginning_of_month + count.months] end
+# dates = number_of_months.times.each_with_object([]) do |count, array| array << [start_date.beginning_of_month + count.months,start_date.end_of_month + count.months] end

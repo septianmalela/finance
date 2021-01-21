@@ -1,3 +1,3 @@
 class Bunga < ApplicationRecord
-	has_many :tabungas
+	has_many :tabungans
 end

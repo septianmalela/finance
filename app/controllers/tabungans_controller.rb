@@ -13,11 +13,26 @@ class TabungansController < ApplicationController
 		@tabungan.save
 		redirect_to tabungan_path(@tabungan)
 		flash[:notice] = "Rincian tabungan berhasil dibuat, semoga apa yang di harapkan untuk membeli #{@tabungan.tujuan_nabung} TERCAPAI!!!"
-		byebug
 	end
 
 	def show
 		@tabungan = Tabungan.last
+		respond_to do |format|
+            format.html
+            format.csv { send_data @tabungan.to_csv, filename: "Tabungan-#{@tabungan}.csv" }
+            format.pdf do
+                render pdf: "PDF No. #{@tabungan.id}",
+                :wkhtmltopdf => '/usr/bin/wkhtmltopdf',
+                page_size: 'A3',
+                template: "tabungans/show.html.erb",
+                layout: "pdf.html",
+                orientation: "Landscape",
+                lowquality: true,
+                zoom: 0,
+                dpi: 75,
+                :disposition => "inline"
+            end
+        end
 	end
 
 	private
