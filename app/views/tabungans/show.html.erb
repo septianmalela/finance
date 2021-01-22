@@ -8,7 +8,7 @@
 <% end %>
 	<a><b>Tujuan Nabung</b><a style="padding-left: 42px;">:</a> <%= @tabungan.tujuan_nabung %>,</a> 	<a><b>Target Dana</b> : <%= @tabungan.format2 %></a><br>
 	<a><b>Biaya Perbulan</b> <a style="padding-left: 36px;">:</a> <%= @tabungan.format %><br></a>
-	<a><b>Tempo</b> <a style="padding-left: 117px;">:</a> <%= @tabungan.tempo %> Bulan <a>/ <%= @tabungan.tempo.fdiv(12).round(1)+0.1 %> Tahun</a><br></a>	
+	<a><b>Tempo</b> <a style="padding-left: 117px;">:</a> <%= @tabungan.tempo %> Bulan <a>/ <%= @tabungan.tempo.fdiv(12).round(1) %> Tahun</a><br></a>	
 	<a><b>Range Bunga</b> <a style="padding-left: 53px;">:</a> <%= @tabungan.bunga.bunga %> <%= @tabungan.bunga.range_bunga %>%<br></a>
 	<a><b>Saldo Awal</b> <a style="padding-left: 77px;">:</a> <%= @tabungan.format %><br></a>
 	<a><b>Biaya Admin</b><a style="padding-left: 67px;">:</a> Rp. 5.000</a><br>
@@ -18,10 +18,13 @@
 <div class="table-responsive">	    	
 	<table class="table">
 	  <% i = 0 %>
-	  <% a = 0 %>
-	  <% b = @tabungan.biaya_perbulan+@tabungan.biaya_perbulan-5000 %>
-	  <% c = (b/100)*@tabungan.bunga.range_bunga %>
-	  <% d = ((c/100.to_f)*10).round(1) %>
+	  <% a = @tabungan.biaya_perbulan %>
+	  <% b = @tabungan.biaya_perbulan %>
+	  <% c = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
+	  <% ccc = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
+	  <% d = ((ccc/100.to_f)*10).round(1) %>
+
+	  <% saldo_akhir = b+c-d %>
 	  <thead>
 	    <tr>
 	  		<% @tabungan.dates.in_groups_of(12, false) do |row_task| %>
@@ -30,51 +33,74 @@
 	  	  			<% for task in row_task %>
 	      				<th><%= task.first.strftime("%d:%b:%Y") %></th>
 	      			<% end %>
-	      			<td>total</td>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    <tr>
 	      <th scope="row">Saldo Awal</th>
 	      <% for l in row_task %>
-	      <td><%= number_to_currency(saldo_awal = a+=@tabungan.biaya_perbulan, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
+	      	<% if l == @tabungan.dates.first %>
+	      		<td><%= number_to_currency(@tabungan.biaya_perbulan, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
+	      	<% end %>
+
+	      	<% if l == @tabungan.dates.first %>
+	      		<% next %>
+	      	<% end %>
+	  		<%= cc = c+=((b/100)*@tabungan.bunga.range_bunga)/12 %>
+	      		<td><%= number_to_currency(a+=@tabungan.biaya_perbulan-5000+cc-d, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
 	      <% end %>
-	      <td><%= number_to_currency(saldo_awal, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
 	    </tr>
 
 	    <tr>
 	      <th scope="row">Admin</th>
-	      <% for i in row_task do %>
-	      <td>Rp. 5.000,00</td>
+	      <% for ii in row_task do %>
+	      	<% if ii == @tabungan.dates.first %>
+	      		<td></td>
+	      	<% end %>
+
+	      	<% if ii == @tabungan.dates.first %>
+	      		<% next %>
+	      	<% end %>
+	      	<td>Rp. 5.000</td>
 	      <% end %>
-	      <td><%= number_to_currency(admin = 5000*row_task.count, unit: "Rp. ", separator: ",", delimiter: ".")%></td>
 	    </tr>
 
 	    <tr>
 	      <th scope="row">Bunga <%= @tabungan.bunga.range_bunga %>%</th>
 	      <% for u in row_task do %>
-	      <td><%= number_to_currency(c, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
+	      	<% if u == @tabungan.dates.first %>
+	      		<td></td>
+	      	<% end %>
+
+	      	<% if u == @tabungan.dates.first %>
+	      		<% next %>
+	      	<% end %>
+	      <td><%= number_to_currency(ccc+=(b/100)*@tabungan.bunga.range_bunga/12, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
 	      <% end %>
-	      <td><%= number_to_currency(bunga = c*row_task.count, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
 	    </tr>
 
 	    <tr>
 	      <th scope="row">Pajak 10%</th>
 	      <% for j in row_task do %>
+	      	<% if j == @tabungan.dates.first %>
+	      		<td></td>
+	      	<% end %>
+
+	      	<% if j == @tabungan.dates.first %>
+	      		<% next %>
+	      	<% end %>
 	      <td><%= number_to_currency(d, unit: "Rp. ", separator: ",", delimiter: ".")%></td>
 	      <% end %>
-	      <td><%= number_to_currency(pajak = d*row_task.count, unit: "Rp. ", separator: ",", delimiter: ".")%></td>
 	    </tr>
 
 	    <tr>
 	      <th scope="row">Setoran</th>
 	      <% for k in row_task do  %>
-	      <td><%= @tabungan.format %></td>
+	      	<td><%= @tabungan.format %></td>
 	      <% end %>
-	      <td><%= number_to_currency(saldo_awal-admin+bunga-pajak, unit: "Rp. ", separator: ",", delimiter: ".")%></td>
 	    </tr>
 	  </tbody>
-	      		<% end %>
+	      	 <% end %><!-- end qwe -->
 	      	<% end %>
 	</table>
 	<h4>Note! Bunga didapat dari biaya perbulan dari bulan kedua - admin *<%=@tabungan.bunga.range_bunga%>%</h4>

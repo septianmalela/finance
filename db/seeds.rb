@@ -47,6 +47,29 @@ b.save
 @start_date = @tabungan.awal_nabung
 @end_date = @tabungan.tempo.months.after.to_date
 
-@number_of_months = (@end_date.year*12+@end_date.month)-(@start_date.year*12+@start_date.month)+1
+@number_of_months = (@end_date.year*12+@end_date.month)-(@start_date.year*12+@start_date.month)
 dates = @number_of_months.times.each_with_object([]) do |count, array| array << [@start_date.beginning_of_month + count.months] end
+
+@tabungan = Tabungan.last
+@start_date = @tabungan.awal_nabung 
+@end_date = @tabungan.tempo.months.after.to_date 
+@number_of_months = (@end_date.year*12+@end_date.month)-(@start_date.year*12+@start_date.month) 
+dates = @number_of_months.times.each_with_object([]) do |count, array| array << [@start_date + count.months] end 
+
 # dates = number_of_months.times.each_with_object([]) do |count, array| array << [start_date.beginning_of_month + count.months,start_date.end_of_month + count.months] end
+
+for i in 1..12
+    if i == 1 then
+      next
+    end
+    puts i
+end
+
+# setoran bulan kedua 200000
+# admin = 5000
+# menghitung bunga = setoran bulan kedua
+setoran bulan kedua - admin /bunga/12(dibagi 1 taun)
+200000 - 5000 = 195000
+((195000/100)*10)/12 = 162.5
+# menghitung pajak, pajak didapat dari bungan dibagi 10%
+(162.5/100)*10 = 16.25
