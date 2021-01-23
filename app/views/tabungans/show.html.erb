@@ -21,8 +21,11 @@
 	  <% a = @tabungan.biaya_perbulan %>
 	  <% b = @tabungan.biaya_perbulan %>
 	  <% c = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
+	  <% cd = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
+	  <% sm = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
 	  <% ccc = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
 	  <% d = ((ccc/100.to_f)*10).round(1) %>
+	  <% dd = ((ccc/100.to_f)*10).round(1) %>
 
 	  <% saldo_akhir = b+c-d %>
 	  <thead>
@@ -46,8 +49,9 @@
 	      	<% if l == @tabungan.dates.first %>
 	      		<% next %>
 	      	<% end %>
-	  		<%= cc = c+=((b/100)*@tabungan.bunga.range_bunga)/12 %>
-	      		<td><%= number_to_currency(a+=@tabungan.biaya_perbulan-5000+cc-d, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
+	  		<% cc = c+=((b/100)*@tabungan.bunga.range_bunga)/12 %>
+	  		<% cdd = d+=((cd/100.to_f)*10).round(1) %>
+	      		<td><%= number_to_currency(a+=@tabungan.biaya_perbulan-5000+cc-cdd, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
 	      <% end %>
 	    </tr>
 
@@ -89,7 +93,7 @@
 	      	<% if j == @tabungan.dates.first %>
 	      		<% next %>
 	      	<% end %>
-	      <td><%= number_to_currency(d, unit: "Rp. ", separator: ",", delimiter: ".")%></td>
+	      <td><%= number_to_currency(dd+=((sm/100.to_f)*10).round(1), unit: "Rp. ", separator: ",", delimiter: ".")%></td>
 	      <% end %>
 	    </tr>
 
