@@ -18,7 +18,7 @@
 <div class="table-responsive">	    	
 	<table class="table">
 	  <% i = 0 %>
-	  <% a = @tabungan.biaya_perbulan %>
+	  <% a = @tabungan.biaya_perbulan+@tabungan.biaya_perbulan %>
 	  <% b = @tabungan.biaya_perbulan %>
 	  <% c = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
 	  <% cd = ((b/100)*@tabungan.bunga.range_bunga)/12 %>
@@ -42,13 +42,11 @@
 	    <tr>
 	      <th scope="row">Saldo Awal</th>
 	      <% for l in row_task %>
-	      	<% if l == @tabungan.dates.first %>
-	      		<td><%= number_to_currency(@tabungan.biaya_perbulan, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
-	      	<% end %>
-
-	      	<% if l == @tabungan.dates.first %>
+	      	<% if (l == @tabungan.dates.first || l == @tabungan.dates.second )  %>
+	      		<td><%= number_to_currency(i+=@tabungan.biaya_perbulan, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
 	      		<% next %>
 	      	<% end %>
+
 	  		<% cc = c+=((b/100)*@tabungan.bunga.range_bunga)/12 %>
 	  		<% cdd = d+=((cd/100.to_f)*10).round(1) %>
 	      		<td><%= number_to_currency(a+=@tabungan.biaya_perbulan-5000+cc-cdd, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
@@ -60,11 +58,9 @@
 	      <% for ii in row_task do %>
 	      	<% if ii == @tabungan.dates.first %>
 	      		<td></td>
-	      	<% end %>
-
-	      	<% if ii == @tabungan.dates.first %>
 	      		<% next %>
 	      	<% end %>
+
 	      	<td>Rp. 5.000</td>
 	      <% end %>
 	    </tr>
@@ -74,9 +70,6 @@
 	      <% for u in row_task do %>
 	      	<% if u == @tabungan.dates.first %>
 	      		<td></td>
-	      	<% end %>
-
-	      	<% if u == @tabungan.dates.first %>
 	      		<% next %>
 	      	<% end %>
 	      <td><%= number_to_currency(ccc+=(b/100)*@tabungan.bunga.range_bunga/12, unit: "Rp. ", separator: ",", delimiter: ".") %></td>
@@ -88,9 +81,6 @@
 	      <% for j in row_task do %>
 	      	<% if j == @tabungan.dates.first %>
 	      		<td></td>
-	      	<% end %>
-
-	      	<% if j == @tabungan.dates.first %>
 	      		<% next %>
 	      	<% end %>
 	      <td><%= number_to_currency(dd+=((sm/100.to_f)*10).round(1), unit: "Rp. ", separator: ",", delimiter: ".")%></td>
@@ -104,7 +94,7 @@
 	      <% end %>
 	    </tr>
 	  </tbody>
-	      	 <% end %><!-- end qwe -->
+	      	 <% end %>
 	      	<% end %>
 	</table>
 	<h4>Note! Bunga didapat dari biaya perbulan dari bulan kedua - admin *<%=@tabungan.bunga.range_bunga%>%</h4>
